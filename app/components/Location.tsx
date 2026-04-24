@@ -165,23 +165,31 @@ export default function Location() {
     return () => observer.disconnect();
   }, []);
 
-  const handleTabClick = (index: number) => {
+  const handleTabClick = (index: number, smooth = true) => {
     setActiveTab(index);
     const card = cardRefs.current[index];
-    if (card) {
-      card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const container = scrollContainerRef.current;
+    if (card && container) {
+      const cardCenter = card.offsetLeft + card.clientWidth / 2;
+      const containerCenter = container.clientWidth / 2;
+      container.scrollTo({
+        left: cardCenter - containerCenter,
+        behavior: smooth ? "smooth" : "instant",
+      });
     }
   };
 
-  // Center middle card on load
+  // Center middle card on load without scrolling the page
   useEffect(() => {
     if (!isLoaded) {
-      setTimeout(() => {
-        handleTabClick(1);
+      const timer = setTimeout(() => {
+        handleTabClick(1, false);
         setIsLoaded(true);
-      }, 500);
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [isLoaded]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Handle scroll to update active tab
   useEffect(() => {

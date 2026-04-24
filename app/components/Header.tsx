@@ -29,6 +29,12 @@ export default function Header() {
 
   // On page load/refresh, handle hash navigation or start at top
   useEffect(() => {
+    // Disable browser scroll restoration so refresh always starts at top
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     const hash = window.location.hash;
     if (hash) {
       const id = hash.replace('#', '');
@@ -92,7 +98,7 @@ export default function Header() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const id = href.replace('#', '');
-    
+
     if (pathname !== "/") {
       router.push("/" + href);
       setIsMenuOpen(false);
