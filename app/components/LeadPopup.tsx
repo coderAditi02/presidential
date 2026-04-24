@@ -25,7 +25,7 @@ export default function LeadPopup() {
     // Show popup after 1 minute
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 60000); // 60 seconds = 1 minute
+    }, 5000); // 60 seconds = 1 minute
 
     // Listen for custom trigger events
     const handleOpenPopup = () => setIsVisible(true);

@@ -95,18 +95,19 @@ export default function Aminities() {
     };
 
     return (
-        <section id="amenities" className="bg-gradient-to-r from-[#CBDFE8] to-[#DEDED6] py-16 lg:py-16 overflow-visible">
-            <div className="max-w-7xl mx-auto  lg:px-16">
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+        <section id="amenities" className="bg-gradient-to-r from-[#CBDFE8] to-[#DEDED6] py-10 sm:py-14 lg:py-16 overflow-visible">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16">
+                <div className="flex flex-col lg:flex-row gap-8 sm:gap-10 lg:gap-20 items-start">
 
-                    {/* Left Content - Scrollable */}
-                    <div className="w-full lg:w-1/2 space-y-8 ">
-                        <div className="space-y-6">
-                                <motion.h2
+                    {/* Left Content */}
+                    <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8">
+                        {/* Heading & Subtitle */}
+                        <div className="space-y-3 sm:space-y-5">
+                            <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, ease: "easeOut" }}
-                                className="text-4xl md:text-5xl lg:text-5xl font-normal text-[#15243D] leading-[1.1]"
+                                className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-normal text-[#15243D] leading-[1.1]"
                             >
                                 Professional <br />
                                 Amenities
@@ -116,72 +117,85 @@ export default function Aminities() {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-gray-700 text-sm md:text-lg leading-relaxed font-light"
+                                className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed font-light max-w-lg"
                             >
                                 Thoughtfully designed health and wellness amenities that support daily fitness, mental peace, relaxation, and mindful living.
                             </motion.p>
                         </div>
 
+                        {/* Image — visible only on mobile & tablet (below heading, above grid) */}
+                        <div className="block lg:hidden">
+                            <div className="relative h-[220px] sm:h-[300px] md:h-[360px] overflow-hidden rounded-2xl shadow-xl">
+                                <AnimatePresence>
+                                    <motion.div
+                                        key={activeIndex}
+                                        initial={{ opacity: 0, scale: 1.08, filter: "blur(8px)" }}
+                                        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                                        exit={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }}
+                                        transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+                                        className="absolute inset-0"
+                                    >
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
+                                        <img
+                                            src={amenities[activeIndex].image}
+                                            alt={amenities[activeIndex].title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        {/* Active amenity label on mobile image */}
+                                        <div className="absolute bottom-4 left-4 z-20">
+                                            <span className="bg-white/20 backdrop-blur-sm text-white text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full border border-white/30">
+                                                {amenities[activeIndex].title}
+                                            </span>
+                                        </div>
+                                    </motion.div>
+                                </AnimatePresence>
+                            </div>
+                        </div>
+
                         {/* Amenities Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-3 md:gap-4">
                             {amenities.map((item, index) => (
                                 <motion.div
                                     key={item.id}
                                     initial={{ opacity: 0, y: 10 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 }}
+                                    transition={{ delay: index * 0.07 }}
                                     onClick={() => handleItemClick(index)}
-                                    className={`relative group cursor-pointer p-3 md:p-4 rounded-xl transition-all duration-700 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border-2 ${activeIndex === index
-                                        ? "border-[#15243D]/10 translate-y-[-2px] shadow-md"
-                                        : "border-transparent hover:border-gray-50"
+                                    className={`relative group cursor-pointer p-2.5 sm:p-3 md:p-4 rounded-xl transition-all duration-500 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border-2 ${activeIndex === index
+                                            ? "border-[#15243D]/10 -translate-y-0.5 shadow-md"
+                                            : "border-transparent hover:border-gray-100"
                                         }`}
                                 >
-                                    {/* Progress Line Animation on Border */}
+                                    {/* Progress Line */}
                                     {activeIndex === index && (
                                         <motion.div
-                                            className="absolute top-0 left-0 h-[4px] bg-[#15243D] rounded-t-xl z-10"
+                                            className="absolute top-0 left-0 h-[3px] bg-[#15243D] rounded-t-xl z-10"
                                             initial={{ width: "0%" }}
                                             animate={{ width: `${progress}%` }}
                                             transition={{ ease: "linear", duration: 0 }}
                                         />
                                     )}
 
-                                    <div className="flex items-center gap-4">
-                                        <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center transition-all duration-500 ${activeIndex === index
-                                            ? "bg-[#15243D] text-white scale-105 shadow-sm"
-                                            : "bg-[#f8f6f2] text-gray-400 group-hover:bg-[#15243D]/5 group-hover:text-[#15243D]"
+                                    <div className="flex items-center gap-2.5 sm:gap-3">
+                                        <div className={`w-7 h-7 sm:w-8 sm:h-8 shrink-0 rounded-full flex items-center justify-center transition-all duration-500 ${activeIndex === index
+                                                ? "bg-[#15243D] text-white scale-105 shadow-sm"
+                                                : "bg-[#f8f6f2] text-gray-400 group-hover:bg-[#15243D]/5 group-hover:text-[#15243D]"
                                             }`}>
                                             <Check className="w-3 h-3" />
                                         </div>
-                                        <span className={`text-sm md:text-base font-medium transition-colors duration-300 leading-tight ${activeIndex === index ? "text-[#15243D]" : "text-[#15243D]/70"
+                                        <span className={`text-xs sm:text-sm md:text-base font-medium transition-colors duration-300 leading-tight ${activeIndex === index ? "text-[#15243D]" : "text-[#15243D]/70"
                                             }`}>
                                             {item.title}
                                         </span>
                                     </div>
-
-                                    {/* Mobile-only description (subtle) */}
-                                    <AnimatePresence>
-                                        {activeIndex === index && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: "auto", opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                className="lg:hidden mt-3 overflow-hidden"
-                                            >
-                                                <p className="text-xs text-gray-500 border-t border-gray-100 pt-2">
-                                                    {item.description}
-                                                </p>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
                                 </motion.div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Right Content - Sticky Image Box */}
-                    <div className="w-full lg:w-1/2 sticky top-24 self-start">
-                        <div className="relative h-[300px] md:h-[350px] lg:h-[450px] overflow-hidden rounded-2xl shadow-2xl">
+                    {/* Right Content — sticky, desktop only */}
+                    <div className="hidden lg:block w-full lg:w-1/2 sticky top-24 self-start">
+                        <div className="relative h-[420px] xl:h-[500px] overflow-hidden rounded-2xl shadow-2xl">
                             <AnimatePresence>
                                 <motion.div
                                     key={activeIndex}
@@ -197,25 +211,6 @@ export default function Aminities() {
                                         alt={amenities[activeIndex].title}
                                         className="w-full h-full object-cover"
                                     />
-
-                                    {/* Information Overlay on Image */}
-                                    {/* <div className="absolute bottom-8 left-8 right-8 z-20">
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.8 }}
-                      className="bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20 shadow-2xl"
-                    >
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-6 h-[1.5px] bg-[#DEC79A]" />
-                        <span className="text-[#DEC79A] text-[10px] uppercase tracking-widest font-bold">Feature {activeIndex + 1}</span>
-                      </div>
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{amenities[activeIndex].title}</h3>
-                      <p className="text-white/80 text-xs md:text-sm leading-relaxed max-w-md">
-                        {amenities[activeIndex].description}
-                      </p>
-                    </motion.div>
-                  </div> */}
                                 </motion.div>
                             </AnimatePresence>
                         </div>
